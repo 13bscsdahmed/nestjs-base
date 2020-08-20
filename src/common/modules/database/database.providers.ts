@@ -1,22 +1,23 @@
 import * as mongoose from 'mongoose';
-import { constants } from '../config/app.constants';
+import { appConstants } from '../../../config/app.constants';
 import { ConfigService } from '@nestjs/config';
+import { LogService } from '../logger/services';
 
 export const databaseProviders = [
   {
-    provide: constants.providers.DB_PROVIDER,
-    inject: [ConfigService],
-    useFactory: async (configService: ConfigService) => {
+    provide: appConstants.providers.DB_PROVIDER,
+    inject: [ConfigService, LogService],
+    useFactory: async (configService: ConfigService, logService: LogService) => {
       (mongoose as any).Promise = global.Promise;
       try {
         const username = configService.get('MONGO_USERNAME');
         const password = configService.get('MONGO_PASSWORD');
         const dbName = configService.get('MONGO_DB_NAME');
         const connection =  await mongoose.connect(`mongodb+srv://${username}:${password}@nestapp-cluster.2u3dt.mongodb.net/${dbName}?retryWrites=true&w=majority`);
-        console.log('Successfully connected to DB');
+        logService.info(undefined, 'Successfully connected to DB');
         return connection;
       } catch(error) {
-        console.log(`An error occurred connecting to DB. Error: ${JSON.stringify(error)}`);
+        logService.error(undefined, `An error occurred connecting to DB. Error: ${JSON.stringify(error)}`);
       }
     }
   }
