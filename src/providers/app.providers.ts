@@ -1,6 +1,4 @@
 import { Connection } from 'mongoose';
-import { ProductSchema } from '../db-models';
-import { appConstants } from '../config/app.constants';
 import { providerConfig}  from './config/providers.config';
 
 export const appProviders = [];
@@ -13,4 +11,3 @@ providerConfig.providers.forEach((provider) => {
     inject: [providerConfig.dbProvider],
   })
 });
-console.log(appProviders);
