@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Product } from './models/product.model';
 import { Model } from 'mongoose';
-import { appConstants } from '../../config/app.constants';
 import { BaseRepository } from '../../common/modules/database/base/base.repository';
+import { modelsConfig } from '../../common/modules/database/models/config/models.config';
 
 @Injectable()
 export class ProductsService extends BaseRepository{
   products: Product[] = [];
   
-  constructor(@Inject(appConstants.providers.PRODUCT_PROVIDER) private productModel: Model<Product>){
+  constructor(@Inject(modelsConfig.providers[0].provider) private productModel: Model<Product>){
     super(productModel, 'Products');
   }
 }

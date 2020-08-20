@@ -1,7 +1,6 @@
-import { ProductSchema } from '../../db-models';
+import { ProductSchema } from '../entities/products/product.model';
 
-export const providerConfig = {
-  dbProvider: 'db_connection',
+export const modelsConfig = {
   providers: [
     {
       name: 'Product',
