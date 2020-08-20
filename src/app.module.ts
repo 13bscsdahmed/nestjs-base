@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ProductsModule } from '@modules/products/products.module';
-import { DatabaseModule } from './common/modules/database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { LoggerModule } from './common/modules/logger/logger.module';
+import { SharedModule } from './common/modules/shared/shared.module';
 
 
 @Module({
   imports: [
     ProductsModule,
-    DatabaseModule,
-    LoggerModule,
+    SharedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.argv.length > 2 && process.argv[2]  === 'prod' ? '.env' : '.env.dev'
