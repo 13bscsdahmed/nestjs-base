@@ -18,6 +18,7 @@ export const databaseProviders = [
         return connection;
       } catch(error) {
         logService.error(undefined, `An error occurred connecting to DB. Error: ${JSON.stringify(error)}`);
+        process.exit(1);
       }
     }
   }
