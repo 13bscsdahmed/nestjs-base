@@ -3,13 +3,13 @@ import { LoggerModule } from '../logger/logger.module';
 import { LogService } from '../logger/services';
 import { WinstonHelper } from '../logger/helpers';
 import { DatabaseModule } from '../database/database.module';
-import { modelsProvider } from '../database/models/models.provider';
+import { entitiesProvider } from './providers/entities.provider';
 
 @Global()
 @Module({
   imports: [LoggerModule, DatabaseModule],
-  providers: [ LogService, WinstonHelper, ...modelsProvider ],
-  exports: [ ...modelsProvider ]
+  providers: [ LogService, WinstonHelper, ...entitiesProvider ],
+  exports: [ ...entitiesProvider ]
   
 })
 export class SharedModule {}
