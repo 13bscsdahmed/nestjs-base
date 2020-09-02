@@ -1,6 +1,7 @@
-import { Controller, Post, Get, Body, Param, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, HttpStatus, Req } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { LogService } from '../../common/modules/logger/services';
+import { Request } from 'express';
 
 @Controller('products')
 export class ProductsController {
@@ -16,15 +17,15 @@ export class ProductsController {
   //   return { products: this.productsService.getProducts() };
   // }
   @Get(':id')
-  async getProduct(@Param('id') prodId: string ) {
+  async getProduct(@Param('id') prodId: string, @Req() req: Request ) {
     const product = await this.productsService.findOne(
       {_id: prodId},
       [],
       [],
       undefined
     );
+    this.logService.info(req.reqId, `Fetching product with id: ${prodId}`);
     return {
-      statusCode: HttpStatus.CREATED,
       code: 1,
       message: 'Product found successfully',
       res: product

@@ -26,7 +26,7 @@ export class LogService {
    * @param {string} [msg] - Message to print
    */
   info(reqId: string, msg: string): void {
-    this.writeLog((`${reqId ? `ReqId: [${reqId}]` : ''}`
+    this.writeLog((`${reqId ? `ReqId: [${reqId}]:` : ''}`
       + `${msg ? ` ${msg}` : ''}`), 'info');
   }
   
@@ -36,7 +36,7 @@ export class LogService {
    * @param {string} [msg] - Message to print
    */
   debug(reqId: string, msg: string): void {
-    this.writeLog((`${reqId ? `ReqId: [${reqId}]` : ''}`
+    this.writeLog((`${reqId ? `ReqId: [${reqId}]:` : ''}`
       + `${msg ? ` ${msg}` : ''}`), 'debug');
   }
   
@@ -46,7 +46,7 @@ export class LogService {
    * @param {string} [msg] - Message to print
    */
   error(reqId: string, msg: string): void {
-    this.writeLog((`${reqId ? `ReqId: [${reqId}]` : ''}`
+    this.writeLog((`${reqId ? `ReqId: [${reqId}]:` : ''}`
       + `${msg ? ` ${msg}` : ''}`), 'error');
   }
 }

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface Response<T> {
-  statusCode: number;
+  statusCode?: number;
   code: number,
   message: string;
   data?: any;
