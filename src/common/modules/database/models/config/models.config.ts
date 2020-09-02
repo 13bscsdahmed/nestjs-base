@@ -1,11 +1,14 @@
-import { ProductSchema } from '../entities/products/product.model';
+import { ProductSchema, UserSchema } from '../entities';
 
 export const modelsConfig = {
-  providers: [
-    {
-      name: 'Product',
-      provider: 'product_model_provider',
-      schema: ProductSchema
-    }
-  ]
+  product: {
+    name: 'Product',
+    provider: 'product_model_provider',
+    schema: ProductSchema
+  },
+  user: {
+    name: 'User',
+    provider: 'user_model_provider',
+    schema: UserSchema
+  },
 };
