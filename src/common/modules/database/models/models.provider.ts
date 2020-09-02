@@ -12,7 +12,7 @@ Object.keys(modelsConfig).forEach((key) => {
     inject: [appConstants.providers.DB_PROVIDER, LogService],
     useFactory: (connection: Connection, logService: LogService) => {
       logService.info(undefined, `Loading model: ${modelsConfig[key].name}`);
-      connection.model(modelsConfig[key].name, modelsConfig[key].schema)
+      return connection.model(modelsConfig[key].name, modelsConfig[key].schema)
     }
   })
 });
