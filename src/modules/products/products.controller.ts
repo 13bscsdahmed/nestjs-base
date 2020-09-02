@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, HttpStatus } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { LogService } from '../../common/modules/logger/services';
 
@@ -16,13 +16,19 @@ export class ProductsController {
   //   return { products: this.productsService.getProducts() };
   // }
   @Get(':id')
-  getProduct(@Param('id') prodId: string ) {
-    this.logService.debug('123', 'req received');
-    return this.productsService.findOne(
+  async getProduct(@Param('id') prodId: string ) {
+    const product = await this.productsService.findOne(
       {_id: prodId},
       [],
       [],
       undefined
     );
+    return {
+      statusCode: HttpStatus.CREATED,
+      code: 1,
+      message: 'Product found successfully',
+      res: product
+    }
+    // throw new NotFoundException({code: 2, msg: 'Could not find product', status: HttpStatus.NOT_FOUND},);
   }
 }
