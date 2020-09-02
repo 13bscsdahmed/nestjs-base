@@ -2,6 +2,7 @@ import { Controller, Post, Get, Body, Param, HttpStatus, Req } from '@nestjs/com
 import { ProductsService } from './products.service';
 import { LogService } from '../../common/modules/logger/services';
 import { Request } from 'express';
+import { Response } from '../../common/modules/shared/interceptors/response.interceptor';
 
 @Controller('products')
 export class ProductsController {
@@ -17,7 +18,7 @@ export class ProductsController {
   //   return { products: this.productsService.getProducts() };
   // }
   @Get(':id')
-  async getProduct(@Param('id') prodId: string, @Req() req: Request ) {
+  async getProduct(@Param('id') prodId: string, @Req() req: Request ): Promise<Response> {
     const product = await this.productsService.findOne(
       {_id: prodId},
       [],
@@ -28,7 +29,7 @@ export class ProductsController {
     return {
       code: 1,
       message: 'Product found successfully',
-      res: product
+      data: product
     }
     // throw new NotFoundException({code: 2, msg: 'Could not find product', status: HttpStatus.NOT_FOUND},);
   }
