@@ -16,16 +16,17 @@ async function bootstrap() {
     app.setGlobalPrefix(appConstants.appPrefix);
     
     configService = app.get(ConfigService);
+    const port = configService.get('PORT') || 3000;
     logService = app.get(LogService);
-    logService.info(undefined, 'Server initialized successfully');
+    logService.info(undefined, 'App initialized successfully');
     // Use global request middleware
     app.use(requestMiddleware);
     
-    await app.listen(configService.get('PORT') || 3000);
-    logService.info(undefined, `Server started on port: ${configService.get('PORT') || 3000}`);
+    await app.listen(port);
+    logService.info(undefined, `App started on port: ${port}`);
     
   } catch (error) {
-    logService.error(undefined, `App error occurred on port: ${configService.get('PORT') || 3000}`);
+    logService.error(undefined, `An error occurred initializing app. Error: ${error}`);
     process.exit(1);
   }
   

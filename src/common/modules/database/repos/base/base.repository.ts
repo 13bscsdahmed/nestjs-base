@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { LogService } from '../../logger/services';
-import { WinstonHelper } from '../../logger/helpers';
+import { LogService } from '../../../logger/services';
+import { WinstonHelper } from '../../../logger/helpers';
 
 @Injectable()
 export class BaseRepository {
@@ -51,4 +51,28 @@ export class BaseRepository {
       });
     });
   }
+  
+  /**
+   * Helper function to save object in DB
+   * @param {Object} [object] - Object to save
+   * @param {string} [reqId] - request id
+   * @returns {Promise<unknown>}
+   */
+  save(object, reqId) {
+    this.logService.debug(reqId, `[${this.repoName} Repository]: save() method starts`);
+    return new Promise((resolve, reject) => {
+      object.save().then((data) => {
+        if (data) {
+          data = data.toObject();
+          delete data.__v;
+          delete data.isDeleted;
+        }
+        this.logService.info(reqId, `[${this.repoName} Repository]: Successfully saved object in DB`);
+        resolve(data);
+      }).catch((error) => {
+        this.logService.error(reqId, `[${this.repoName} Repository]: An error occurred saving object in DB. Error: ${JSON.stringify(error)}`);
+        reject(error);
+      });
+    });
+  };
 }

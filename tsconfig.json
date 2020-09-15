@@ -12,7 +12,8 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@modules/*": ["src/modules/*"]
+      "@modules/*": ["src/modules/*"],
+      "@repos/*": ["src/common/modules/database/repos/*"]
     }
   }
 }

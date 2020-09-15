@@ -1,4 +1,4 @@
-import { ProductSchema, UserSchema } from '../entities';
+import { ProductSchema, UserSchema } from '@repos/index';
 
 export const entitiesConfig = {
   product: {

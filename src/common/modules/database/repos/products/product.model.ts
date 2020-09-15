@@ -6,3 +6,10 @@ export const ProductSchema = new mongoose.Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true }
 });
+
+export interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  price: number
+}

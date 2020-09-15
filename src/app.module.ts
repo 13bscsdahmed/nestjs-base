@@ -6,8 +6,8 @@ import { SharedModule } from './common/modules/shared/shared.module';
 
 @Module({
   imports: [
-    ProductsModule,
     SharedModule,
+    ProductsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.argv.length > 2 && process.argv[2]  === 'prod' ? '.env' : '.env.dev'

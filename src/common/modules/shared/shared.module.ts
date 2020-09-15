@@ -9,7 +9,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Global()
 @Module({
-  imports: [LoggerModule, DatabaseModule],
+  imports: [ LoggerModule, DatabaseModule ],
   providers: [
     LogService,
     WinstonHelper,
@@ -17,7 +17,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor
-    }
+    },
   ],
   exports: [ ...entitiesProvider ]
   

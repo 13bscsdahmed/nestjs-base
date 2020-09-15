@@ -1,12 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Product } from './models/product.model';
-import { Model } from 'mongoose';
-import { BaseRepository } from '../../common/modules/database/base/base.repository';
-import { entitiesConfig } from '../../common/modules/database/models/config/entities.config';
+import { Injectable } from '@nestjs/common';
+import { ProductsRepository } from '@repos/products/products.repository';
 
 @Injectable()
-export class ProductsService extends BaseRepository{
-  constructor(@Inject(entitiesConfig.product.provider) private productModel: Model<Product>){
-    super(productModel, 'Products');
+export class ProductsService {
+  constructor(private productsRepository: ProductsRepository) {}
+  getProductById(id: string, reqId: string): Promise<any> {
+    return this.productsRepository.findOne(
+      {_id: id},
+      [],
+      [],
+      reqId
+    );
   }
 }
