@@ -2,27 +2,28 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nes
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export interface Response {
+export interface ResponseObj {
   statusCode?: number;
   success?: number,
-  code: number,
+  code?: number,
   message: string;
   data?: any;
 }
 
 @Injectable()
 export class ResponseInterceptor<T>
-  implements NestInterceptor<T, Response> {
+  implements NestInterceptor<T, ResponseObj> {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response> {
+  ): Observable<ResponseObj> {
     return next
     .handle()
     .pipe(
-      map((data) => ({
+      map((data) => (
+        {
         statusCode: data.statusCode ? context.switchToHttp().getResponse().statusCode = data.statusCode: 200,
-        success: data.success ? data.success : 1,
+        success: typeof (data.success) === 'undefined' ? 0 : data.success,
         code: data.code,
         message: data.message,
         data: data.data

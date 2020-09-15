@@ -2,7 +2,7 @@ import { Controller, Post, Get, Body, Param, HttpStatus, Req } from '@nestjs/com
 import { ProductsService } from './products.service';
 import { LogService } from '../../common/modules/logger/services';
 import { Request } from 'express';
-import { Response } from '../../common/modules/shared/interceptors/response.interceptor';
+import { ResponseObj } from '../../common/modules/shared/interceptors/response.interceptor';
 
 @Controller('products')
 export class ProductsController {
@@ -18,11 +18,11 @@ export class ProductsController {
   //   return { products: this.productsService.getProducts() };
   // }
   @Get(':id')
-  async getProduct(@Param('id') prodId: string, @Req() req: Request ): Promise<Response> {
+  async getProduct(@Param('id') prodId: string, @Req() req: Request ): Promise<ResponseObj> {
     this.logService.info(req.reqId, `Fetching product with id: ${prodId}`);
     const product = await this.productsService.getProductById(prodId, req.reqId);
     return {
-      code: 1,
+      success: 1,
       message: 'Product found successfully',
       data: product
     }

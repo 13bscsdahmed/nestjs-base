@@ -53,6 +53,38 @@ export class BaseRepository {
   }
   
   /**
+   * Helper method to findOne in DB
+   * @param {Object} [queryObj] - query obj
+   * @param {Array} [populateFields] - Foreign fields to populate
+   * @param {Array} [selectFields] - Fields to return in the query
+   * @param {string} [reqId] - request id
+   * @returns {Promise}
+   */
+  findOneLean(queryObj: any = {}, populateFields: Array<string> = [], selectFields: Array<any> = [], reqId: string = undefined): Promise<any> {
+    this.logService.debug(reqId, `[${this.repoName} Repository]: findOne() method starts with query object: ${JSON.stringify(queryObj)}`);
+    if (selectFields.length === 0) {
+      selectFields.push('-__v', '-isDeleted')
+    }
+    return new Promise((resolve, reject) => {
+      this.model.findOne(queryObj)
+      .select(selectFields)
+      .populate(populateFields)
+      .lean()
+      .then((data) => {
+        if (data) {
+          this.logService.info(reqId, `[${this.repoName} Repository]: Successfully found data with query object: ${JSON.stringify(queryObj)}`);
+        } else {
+          this.logService.info(reqId, `[${this.repoName} Repository]: Found no data with query object: ${JSON.stringify(queryObj)}`);
+        }
+        resolve(data);
+      }).catch((error) => {
+        this.logService.error(reqId, `[${this.repoName} Repository]: An error occurred finding data with query object: ${JSON.stringify(queryObj)}. Error: ${JSON.stringify(error)}`);
+        reject(error);
+      });
+    });
+  }
+  
+  /**
    * Helper function to save object in DB
    * @param {Object} [object] - Object to save
    * @param {string} [reqId] - request id

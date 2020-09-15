@@ -1,19 +1,25 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import { CreateUserReq } from '@modules/user/models/create-user-req';
+import { CreateUserReq, CreateUserRes } from '@modules/user/models/create-user-dto';
 import { UserService } from '@modules/user/user.service';
 import { Request } from 'express';
+import { ResponseObj } from '../../common/modules/shared/interceptors/response.interceptor';
+import { userConstants } from './user.constants';
+
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
   
   @Post()
-  createUser(@Body() user: CreateUserReq, @Req() req: Request) {
-    this.userService.createUser(user, req.reqId).then((data) => {
-      console.log(data);
-    }).catch((error) => {
-      console.log(error);
-    })
-    
+  async createUser(@Body() user: CreateUserReq, @Req() req: Request): Promise<ResponseObj> {
+    try {
+      const data: CreateUserRes = await this.userService.createUser(user, req.reqId);
+      return {
+        ...userConstants.responseMessages.userCreated,
+        ... { data }
+      }
+    } catch (error) {
+      return error
+    }
   }
 }
