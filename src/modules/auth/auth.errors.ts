@@ -6,5 +6,9 @@ export const authErrors = {
   '1002': {
     code: 1002,
     message: 'An error occurred logging in user'
+  },
+  '1003': {
+    code: 1003,
+    message: 'User is not authenticated'
   }
 };
