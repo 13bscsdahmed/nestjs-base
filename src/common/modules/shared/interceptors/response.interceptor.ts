@@ -2,21 +2,21 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nes
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export interface ResponseObj {
+export interface ResponseObj<t1> {
   statusCode?: number;
   success?: number,
   code?: number,
   message: string;
-  data?: any;
+  data?: t1;
 }
 
 @Injectable()
 export class ResponseInterceptor<T>
-  implements NestInterceptor<T, ResponseObj> {
+  implements NestInterceptor<T, ResponseObj<any>> {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<ResponseObj> {
+  ): Observable<ResponseObj<any>> {
     return next
     .handle()
     .pipe(

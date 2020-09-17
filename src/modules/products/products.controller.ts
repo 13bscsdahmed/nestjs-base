@@ -18,7 +18,7 @@ export class ProductsController {
   //   return { products: this.productsService.getProducts() };
   // }
   @Get(':id')
-  async getProduct(@Param('id') prodId: string, @Req() req: Request ): Promise<ResponseObj> {
+  async getProduct(@Param('id') prodId: string, @Req() req: Request ): Promise<ResponseObj<any>> {
     this.logService.info(req.reqId, `Fetching product with id: ${prodId}`);
     const product = await this.productsService.getProductById(prodId, req.reqId);
     return {

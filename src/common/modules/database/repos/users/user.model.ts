@@ -10,6 +10,13 @@ export const UserSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
+UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    if (err) return cb(err);
+    return cb(null, isMatch);
+  });
+};
+
 UserSchema.pre('save', function (next) {
   
   // only hash the password if it has been modified (or is new)
