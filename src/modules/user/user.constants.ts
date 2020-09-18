@@ -1,6 +1,7 @@
 export const userConstants = {
   userTypes: {
-    user: 'USER'
+    user: 'USER',
+    admin: 'ADMIN'
   },
   responseMessages: {
     userCreated: {

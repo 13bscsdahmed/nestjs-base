@@ -5,6 +5,9 @@ import { Request } from 'express';
 import { ResponseObj } from '../../common/modules/shared/interceptors/response.interceptor';
 import { GetUserRes } from '@modules/user/models/get-user-dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { Roles } from '../../common/modules/shared/decorators/roles.decorator';
+import { userConstants } from '@modules/user/user.constants';
+import { RolesGuard } from '../../common/modules/shared/guards/roles.guard';
 
 
 @Controller('user')
@@ -19,7 +22,8 @@ export class UserController {
       return error
     }
   }
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(userConstants.userTypes.user, userConstants.userTypes.admin)
   @Get(':id')
   async getUserById(@Param('id') userId: string, @Req() req: Request): Promise<ResponseObj<GetUserRes>> {
     try {

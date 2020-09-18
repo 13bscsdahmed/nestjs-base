@@ -6,7 +6,7 @@ export interface ResponseObj<t1> {
   statusCode?: number;
   success?: number,
   code?: number,
-  message: string;
+  message?: string;
   data?: t1;
 }
 

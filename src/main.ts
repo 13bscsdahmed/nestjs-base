@@ -5,6 +5,7 @@ import { LogService } from './common/modules/logger/services';
 import { requestMiddleware } from './common/modules/shared/middlewares/request.middleware';
 import { appConstants } from './config/app.constants';
 import { UnauthorizedExceptionFilter } from './common/modules/shared/filters/unauthorized-exception.filter';
+import { ForbiddenExceptionFilter } from './common/modules/shared/filters/forbidden-exception.filter';
 
 async function bootstrap() {
   let app;
@@ -14,7 +15,7 @@ async function bootstrap() {
     app = await NestFactory.create(AppModule);
     
     // Use customized unauthorized exception filter
-    app.useGlobalFilters(new UnauthorizedExceptionFilter());
+    app.useGlobalFilters(new UnauthorizedExceptionFilter(), new ForbiddenExceptionFilter());
     
     // Setting app prefix
     app.setGlobalPrefix(appConstants.appPrefix);
