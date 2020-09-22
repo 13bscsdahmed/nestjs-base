@@ -1,9 +1,23 @@
-export interface CreateUserReq {
-  email: string,
-  firstName: string,
-  lastName: string,
-  password: string,
-  userType?: string
+import { IsEmail, IsNotEmpty, Length, IsIn } from 'class-validator';
+import { userConstants } from '@modules/user/user.constants';
+
+export class CreateUserReq {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+  
+  @IsNotEmpty()
+  firstName: string;
+  
+  @IsNotEmpty()
+  lastName: string;
+  
+  @IsNotEmpty()
+  @Length(8)
+  password: string;
+  
+  @IsIn(Object.values(userConstants.userTypes))
+  userType?: string;
 }
 
 export interface CreateUserRes {
@@ -11,5 +25,5 @@ export interface CreateUserRes {
   email: string,
   firstName: string,
   lastName: string,
-  userType?: string
+  userType?: string,
 }

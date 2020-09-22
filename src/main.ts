@@ -6,6 +6,8 @@ import { requestMiddleware } from './common/modules/shared/middlewares/request.m
 import { appConstants } from './config/app.constants';
 import { UnauthorizedExceptionFilter } from './common/modules/shared/filters/unauthorized-exception.filter';
 import { ForbiddenExceptionFilter } from './common/modules/shared/filters/forbidden-exception.filter';
+import { BadRequestExceptionFilter } from './common/modules/shared/filters/bad-request-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   let app;
@@ -15,13 +17,18 @@ async function bootstrap() {
     app = await NestFactory.create(AppModule);
     
     // Use customized unauthorized exception filter
-    app.useGlobalFilters(new UnauthorizedExceptionFilter(), new ForbiddenExceptionFilter());
+    app.useGlobalFilters(new UnauthorizedExceptionFilter(), new ForbiddenExceptionFilter(), new BadRequestExceptionFilter());
+    
+    // Injecting validation pipe globally
+    app.useGlobalPipes(new ValidationPipe());
     
     // Setting app prefix
     app.setGlobalPrefix(appConstants.appPrefix);
     
     configService = app.get(ConfigService);
+    
     const port = configService.get('PORT') || 3000;
+    
     logService = app.get(LogService);
     logService.info(undefined, 'App initialized successfully');
     // Use global request middleware
@@ -36,4 +43,5 @@ async function bootstrap() {
   }
   
 }
+
 bootstrap();
