@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
 import { CreateUserReq, CreateUserRes } from '@modules/user/models/create-user-dto';
@@ -11,7 +11,7 @@ import { Roles } from '../../common/modules/shared/decorators/roles.decorator';
 import { userConstants } from '@modules/user/user.constants';
 import { RolesGuard } from '../../common/modules/shared/guards/roles.guard';
 
-
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
