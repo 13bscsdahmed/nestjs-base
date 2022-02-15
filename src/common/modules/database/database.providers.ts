@@ -13,7 +13,7 @@ export const databaseProviders = [
         const username = configService.get('MONGO_USERNAME');
         const password = configService.get('MONGO_PASSWORD');
         const dbName = configService.get('MONGO_DB_NAME');
-        const connection =  await mongoose.connect(`mongodb+srv://${username}:${password}@nestapp-cluster.2u3dt.mongodb.net/${dbName}?retryWrites=true&w=majority`);
+        const connection =  await mongoose.connect(`mongodb+srv://${username}:${password}@nestapp-cluster.2u3dt.mongodb.net/${dbName}?retryWrites=true&w=majority`)
         logService.info(undefined, `Successfully connected to DB: ${dbName}`);
         return connection;
       } catch(error) {

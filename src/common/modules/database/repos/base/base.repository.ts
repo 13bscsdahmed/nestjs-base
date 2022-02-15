@@ -53,6 +53,43 @@ export class BaseRepository {
   }
   
   /**
+   * Helper function to find all
+   * @param {string} [reqId] - request id
+   * @param {Object} [queryObj] - query obj
+   * @param {String} [searchString] - string to search
+   * @param {String} [sortField] - Field to sort on
+   * @param {Number} [sortOrder] - Sort order
+   * @param {Number} [recordsPerPage] - Number of records per page to fetch
+   * @param {Number} [offset] - Offset of records
+   * @param {Array} [populateFields] - Foreign fields to populate
+   * @param {Array} [selectFields] - Fields to return in the query
+   * @returns {Promise<unknown>}
+   */
+  findAll(queryObj, searchString, sortField, sortOrder, recordsPerPage, offset, populateFields, selectFields, reqId) {
+    return new Promise((resolve, reject) => {
+      this.logService.info(reqId, `[${this.repoName} Repository]: findAll() method starts with props: ${JSON.stringify(queryObj)} and searchString: ${searchString}`);
+      if (searchString) {
+        searchString = searchString.trim();
+      }
+      if (selectFields.length === 0) {
+        selectFields.push('-__v', '-isDeleted')
+      }
+      this.model.find(queryObj)
+      .skip(offset)
+      .limit(recordsPerPage)
+      .select(selectFields)
+      .sort({ [sortField]: sortOrder })
+      .populate(populateFields)
+      .lean()
+      .then((data) => {
+        resolve(data);
+      }).catch((error) => {
+        this.logService.error(reqId,`[${this.repoName} Repository]: Error in finding entity with props ${JSON.stringify(queryObj)} and searchString: ${searchString}. Error: ${JSON.stringify(error)}`);
+        reject(error);
+      });
+    });
+  };
+  /**
    * Helper method to findOne in DB
    * @param {Object} [queryObj] - query obj
    * @param {Array} [populateFields] - Foreign fields to populate
@@ -108,3 +145,4 @@ export class BaseRepository {
     });
   };
 }
+

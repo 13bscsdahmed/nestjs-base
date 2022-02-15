@@ -7,7 +7,7 @@ import { userConstants } from '@modules/user/user.constants';
 import { CreateUserReq } from '@modules/user/models/create-user-dto';
 
 @Injectable()
-export class UsersRepository extends BaseRepository{
+export class UsersRepository extends BaseRepository {
   constructor(@Inject(entitiesConfig.user.provider) private UserModel: Model<User>){
     super(UserModel, 'Users');
   }
