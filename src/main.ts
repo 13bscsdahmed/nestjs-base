@@ -15,7 +15,12 @@ async function bootstrap() {
   let configService: ConfigService;
   let logService: LogService;
   try {
-    app = await NestFactory.create(AppModule, { cors: true });
+    app = await NestFactory.create(AppModule);
+    app.enableCors({
+      origin: '*',
+      allowedHeaders: ['Content-Type', 'access_token', 'Authorization'],
+      exposedHeaders: [ 'access_token' ]
+    })
     
     // Use customized unauthorized exception filter
     app.useGlobalFilters(new UnauthorizedExceptionFilter(), new ForbiddenExceptionFilter(), new BadRequestExceptionFilter());
